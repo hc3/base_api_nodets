@@ -1,5 +1,5 @@
 
-export default class AbstractService {
+export default abstract class AbstractService {
 
     private factory:any;
     private instanceModel:any;

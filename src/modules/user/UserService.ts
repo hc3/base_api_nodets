@@ -1,12 +1,12 @@
-import AbstractService from "../AbstractService";
 import { Service } from "typedi";
 import { OrmRepository } from 'typeorm-typedi-extensions';
 import { UserRepository } from "./UserRepository";
+import AbstractService from "../AbstractService";
 import userFactory from './UserFactory';
 
 
 @Service()
-export default class UserService extends AbstractService {
+export class UserService extends AbstractService {
 
     constructor(
         @OrmRepository() public repository: UserRepository
@@ -15,7 +15,7 @@ export default class UserService extends AbstractService {
         super(repository,userFactory);
     }
 
-    public listar() {
+    public find() {
         return [
             {
                 nome:'eliel'
