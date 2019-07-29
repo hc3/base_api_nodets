@@ -1,9 +1,6 @@
-import express from 'express';
+import {createExpressServer} from "routing-controllers";
+import UserController from './modules/user/UserController';
 
-const server = express();
-
-server.get('/',(_,res) => {
-    res.send("Hello ts-node");
-})
-
-export default server;
+export default createExpressServer({
+    controllers:[UserController]
+});
