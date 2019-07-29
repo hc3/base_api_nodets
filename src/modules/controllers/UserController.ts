@@ -1,5 +1,5 @@
 import {JsonController, Get} from "routing-controllers";
-import {UserService} from './UserService';
+import {UserService} from '../user/UserService';
 
 @JsonController('/users')
 export class UserController {
