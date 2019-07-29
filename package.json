@@ -1,0 +1,26 @@
+{
+  "name": "base_api_nodets",
+  "version": "1.0.0",
+  "description": "base api com typescript",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch 'src/' --exec \"ts-node src/index.ts\" -e ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hc3/base_api_nodets.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hc3/base_api_nodets/issues"
+  },
+  "homepage": "https://github.com/hc3/base_api_nodets#readme",
+  "dependencies": {
+    "@types/express": "^4.17.0",
+    "express": "^4.17.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  }
+}
