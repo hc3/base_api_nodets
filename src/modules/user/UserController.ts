@@ -8,6 +8,6 @@ export default class UserController {
 
     @Get()
     public list() {
-        return this.userService.list();
+        return this.userService.listar();
     }
 }

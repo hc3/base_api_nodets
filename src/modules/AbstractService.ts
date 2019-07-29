@@ -5,8 +5,8 @@ export default class AbstractService {
     private instanceModel:any;
     
     constructor(instanceModel:any, factory:any) {
-        this.factory = factory;
         this.instanceModel = instanceModel;
+        this.factory = factory;
     }
 
     async list() {
