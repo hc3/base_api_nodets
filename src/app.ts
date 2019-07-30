@@ -18,13 +18,14 @@ createConnection({
     "database":process.env.DB_DATABASE,
     "synchronize": true,
     "logging": false,
-    "entities": [`${__dirname}/modules/models/*.ts`]
+    "entities": [`${__dirname}/model/*.ts`]
 });
 
 export default createExpressServer({
-    controllers:[`${__dirname}/modules/controllers/*.ts`],
+    controllers:[`${__dirname}/controller/*.ts`],
+    //middlewares:[`${__dirname}/middleware/*.ts`],
     authorizationChecker: async(action:Action) => {
-        console.log('authorization',action);
+        console.log('authorization',action.request);
         return true;
     }
 });

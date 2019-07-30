@@ -59,13 +59,27 @@ export class User {
     })
     public username!: string;
 
+    @Column({
+        nullable:false,
+        default:true
+    })
+    isEnabled: boolean;
+
+    @Column({
+        nullable:false,
+        default:new Date()
+    })
+    lastLoginAt: Date;
+
     public toString(): string {
         return `${this.firstName} ${this.lastName} (${this.email})`;
     }
 
     @BeforeInsert()
     public async hashPassword(): Promise<void> {
-        this.password = await User.hashPassword(this.password);
+        console.log('password antes: ',this.password);
+        this.password = await bcrypt.hash(this.password,10);
+        console.log('password depois: ',this.password);
     }
 
 }

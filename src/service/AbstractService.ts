@@ -1,12 +1,10 @@
 
 export default abstract class AbstractService {
 
-    private factory:any;
     private instanceModel:any;
     
-    constructor(instanceModel:any, factory:any) {
+    constructor(instanceModel:any) {
         this.instanceModel = instanceModel;
-        this.factory = factory;
     }
 
     async list() {
@@ -14,9 +12,8 @@ export default abstract class AbstractService {
         return list;
     }
     async insert(request:any) {
-        const entity = this.factory.make(request);
         try {
-            const response = await this.instanceModel.save(entity);
+            const response = await this.instanceModel.save(request);
             return response;
         } catch(err) {
             return err;
@@ -27,7 +24,7 @@ export default abstract class AbstractService {
     async update(id:string, request:any) {
         try {
             let entity = await this.instanceModel.findOne(id);
-            entity = this.factory.change(entity, request);
+            entity = Object.assign(entity, request);
             const response = await this.instanceModel.save(entity);
             return response;
         } catch(err) {

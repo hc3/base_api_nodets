@@ -1,5 +1,5 @@
 import { JsonController, Post, Body } from "routing-controllers";
-import { AuthService } from '../auth/AuthService';
+import { AuthService } from '../service/AuthService';
 
 @JsonController('/auth')
 export class AuthController {
