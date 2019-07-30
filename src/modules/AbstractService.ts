@@ -21,25 +21,25 @@ export default abstract class AbstractService {
         } catch(err) {
             return err;
         }
+       
     }
-    /*
-
-    async update() {
-        let entity = this.factory.make();
-        entity = this.instanceModel.findOne(entity.id);
+    
+    async update(id:string, request:any) {
         try {
-            const response = await this.instanceModel.merge(entity);
+            let entity = await this.instanceModel.findOne(id);
+            entity = this.factory.change(entity, request);
+            const response = await this.instanceModel.save(entity);
             return response;
         } catch(err) {
             return err;
         }
     }
-
-    async findOne() {
-        let entity = this.factory.make();
-        const response = await this.instanceModel.findOne(entity.id);
+    
+    async findOne(id:string) {
+        const response = await this.instanceModel.findOne(id);
         return response;
     }
+    /*
 
     isAuthorized() {
 

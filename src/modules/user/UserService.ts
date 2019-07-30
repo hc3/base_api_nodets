@@ -15,11 +15,4 @@ export class UserService extends AbstractService {
         super(repository,userFactory);
     }
 
-    public find() {
-        return [
-            {
-                nome:'eliel'
-            }
-        ]
-    }
 }

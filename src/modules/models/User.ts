@@ -38,8 +38,12 @@ export class User {
     @Column({ name: 'last_name' })
     public lastName!: string;
 
-    @IsNotEmpty()
-    @Column()
+    @Column({
+        type:'varchar',
+        length:'150',
+        unique:true,
+        nullable:false
+    })
     public email!: string;
 
     @IsNotEmpty()
@@ -47,8 +51,12 @@ export class User {
     @Exclude()
     public password!: string;
 
-    @IsNotEmpty()
-    @Column()
+    @Column({
+        type:'varchar',
+        length:'150',
+        unique:true,
+        nullable:false
+    })
     public username!: string;
 
     public toString(): string {
