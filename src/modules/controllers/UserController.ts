@@ -9,7 +9,8 @@ export class UserController {
     ) { }
 
     @Get()
+    
     public list() {
-        return this.userService.find();
+        return this.userService.list();
     }
 }

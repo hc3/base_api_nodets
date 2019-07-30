@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
-import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -26,7 +26,8 @@ export class User {
         });
     }
 
-    @PrimaryColumn('uuid')
+
+    @PrimaryGeneratedColumn("uuid")
     public id!: string;
 
     @IsNotEmpty()
