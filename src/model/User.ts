@@ -28,15 +28,15 @@ export class User {
 
 
     @PrimaryGeneratedColumn("uuid")
-    public id!: string;
+    public id: string;
 
     @IsNotEmpty()
     @Column({ name: 'first_name' })
-    public firstName!: string;
+    public firstName: string;
 
     @IsNotEmpty()
     @Column({ name: 'last_name' })
-    public lastName!: string;
+    public lastName: string;
 
     @Column({
         type:'varchar',
@@ -44,12 +44,12 @@ export class User {
         unique:true,
         nullable:false
     })
-    public email!: string;
+    public email: string;
 
     @IsNotEmpty()
     @Column()
     @Exclude()
-    public password!: string;
+    public password: string;
 
     @Column({
         type:'varchar',
@@ -57,7 +57,7 @@ export class User {
         unique:true,
         nullable:false
     })
-    public username!: string;
+    public username: string;
 
     @Column({
         nullable:false,
