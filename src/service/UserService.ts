@@ -14,4 +14,12 @@ export class UserService extends AbstractService {
         super(repository);
     }
 
+    async insert(request:any) {
+        try {
+            const response = this.repository.create(request);
+            return await this.repository.save(response);
+        } catch(err) {
+            return err;
+        }
+    }
 }

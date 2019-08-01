@@ -76,10 +76,8 @@ export class User {
     }
 
     @BeforeInsert()
-    public async hashPassword(): Promise<void> {
-        console.log('password antes: ',this.password);
+    public async hashPassword(){
         this.password = await bcrypt.hash(this.password,10);
-        console.log('password depois: ',this.password);
     }
 
 }
