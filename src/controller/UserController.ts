@@ -28,4 +28,9 @@ export class UserController {
     public findOne(@Param('id') id:string) {
         return this.userService.findOne(id);
     }
+
+    @Put('/change-password')
+    public changePassword(@Body({required:true}) request:any) {
+        return this.userService.changePassword(request);
+    }
 }

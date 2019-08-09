@@ -7,5 +7,9 @@ export class UserRepository extends Repository<User> {
     async findOneByUsername(username:string) {
         return await this.findOne({where: {username:username} })
     }
+
+    async findOneByEmail(email:string) {
+        return await this.findOne({where: {email:email}})
+    }
     
 }

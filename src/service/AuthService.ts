@@ -25,20 +25,19 @@ export class AuthService {
     }
 
     private async tryAuth(userData:any) {
-        let user = await this.check(userData.username, userData.password);
+        let user = await this.check(userData.email, userData.password);
         user.lastLoginAt = new Date();
         return await this.repository.save(user);
     }
 
-    private async check(username:string,password:string) {
+    public async check(email:string,password:string) {
         
-        let userEntity = await this.repository.findOne({where:{username:username} });
+        let userEntity = await this.repository.findOne({where:{email:email} });
         
         if(userEntity) {
             if(!userEntity.isEnabled) throw new BadRequestError("USER DESABILITADO!")
 
             const checkPasswords = await this.passwordEnconder.verify(password, userEntity.password);
-            console.log('checkPasswords: ',checkPasswords);
             if(checkPasswords) {
                 return userEntity;
             }
@@ -55,4 +54,5 @@ export class AuthService {
             authType: authType
         } as any,'MY-SECRET',{expiresIn:'7d',audience:'auth'});
     }
+
 }

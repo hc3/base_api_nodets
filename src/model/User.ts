@@ -26,6 +26,10 @@ export class User {
         });
     }
 
+    async updatePassword(password:string) {
+        this.password = await User.hashPassword(password);
+        this.lastChangedAt = new Date();
+    }
 
     @PrimaryGeneratedColumn("uuid")
     public id: string;
@@ -71,13 +75,19 @@ export class User {
     })
     lastLoginAt: Date;
 
+    @Column({
+        nullable:false,
+        default:new Date()
+    })
+    lastChangedAt: Date;
+
     public toString(): string {
         return `${this.firstName} ${this.lastName} (${this.email})`;
     }
 
     @BeforeInsert()
     public async hashPassword(){
-        this.password = await bcrypt.hash(this.password,10);
+        this.password = await User.hashPassword(this.password);
     }
 
 }
