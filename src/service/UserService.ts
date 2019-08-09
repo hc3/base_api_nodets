@@ -19,6 +19,7 @@ export class UserService extends AbstractService {
             const response = this.repository.create(request);
             return await this.repository.save(response);
         } catch(err) {
+            console.log(err);
             return err;
         }
     }

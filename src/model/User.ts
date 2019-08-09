@@ -3,7 +3,7 @@ import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity("user")
 export class User {
 
     public static hashPassword(password: string): Promise<string> {

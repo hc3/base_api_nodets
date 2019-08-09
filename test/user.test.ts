@@ -1,5 +1,7 @@
 import supertest from 'supertest';
-import app from '../app';
+import app from '../src/app';
+import { UserRepository } from '../src/repository/UserRepository';
+import { getCustomRepository, createConnection } from 'typeorm';
 
 const user = {
     firstName:'nameTest',
@@ -11,8 +13,11 @@ const user = {
 
 let userId:string;
 
-beforeAll(async () => {
-    console.log('before all');
+beforeAll(async (done) => {
+    await createConnection();
+    let repository = await getCustomRepository(UserRepository);
+    repository.delete({});
+    done();
 })
 
 test('[USER] @Get List()', async (done) => {
