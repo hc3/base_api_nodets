@@ -24,7 +24,6 @@ export class UserService extends AbstractService {
             const response = this.repository.create(request);
             return await this.repository.save(response);
         } catch(err) {
-            console.log(err);
             return err;
         }
     }
@@ -36,9 +35,9 @@ export class UserService extends AbstractService {
     async changePassword(request:any) {
         try {
             let user = await this.authService.check(request.email, request.oldPassword)
-            console.log(user);
+            await user.updatePassword(request.newPassword);
+            return await this.repository.save(user);
         } catch(err) {
-            console.log(err);
             return err;
         }
     }

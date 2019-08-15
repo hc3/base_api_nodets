@@ -29,8 +29,12 @@ export class UserController {
         return this.userService.findOne(id);
     }
 
-    @Put('/change-password')
-    public changePassword(@Body({required:true}) request:any) {
-        return this.userService.changePassword(request);
+    @Put('/change')
+    public changePassword(@Body() request:any) {
+        console.log('request:',request);
+        return {
+            teste:'testando'
+        }
+        // return this.userService.changePassword(request);
     }
 }

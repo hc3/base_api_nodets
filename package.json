@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch 'src/**' --exec \"ts-node src/index.ts\" -e ts",
-    "test": "jest --no-cache --detectOpenHandles"
+    "test": "jest --no-cache --detectOpenHandles --config jest.config.js --inspect-brk=42521"
   },
   "jest": {
     "transform": {
