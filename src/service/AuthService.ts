@@ -1,10 +1,10 @@
-import { Service } from "typedi";
-import { UserRepository } from "../repository/UserRepository";
-import { BadRequestError } from "routing-controllers";
-import { PasswordEncoder } from "../common/password-encoder";
-import * as jwt from "jsonwebtoken";
-import { User } from "../model/User";
-import { OrmRepository } from "typeorm-typedi-extensions";
+import { Service } from "typedi"
+import { UserRepository } from "../repository/UserRepository"
+import { BadRequestError } from "routing-controllers"
+import { PasswordEncoder } from "../common/password-encoder"
+import * as jwt from "jsonwebtoken"
+import { User } from "../model/User"
+import { OrmRepository } from "typeorm-typedi-extensions"
 
 
 export enum AuthType {
@@ -20,30 +20,30 @@ export class AuthService {
     ) {}
 
     public async login(userData:any) {
-        let user = await this.tryAuth(userData);
-        return this.issueToken(user);
+        let user = await this.tryAuth(userData)
+        return this.issueToken(user)
     }
 
     private async tryAuth(userData:any) {
-        let user = await this.check(userData.email, userData.password);
-        user.lastLoginAt = new Date();
-        return await this.repository.save(user);
+        let user = await this.check(userData.email, userData.password)
+        user.lastLoginAt = new Date()
+        return await this.repository.save(user)
     }
 
     public async check(email:string,password:string) {
         
-        let userEntity = await this.repository.findOne({where:{email:email} });
+        let userEntity = await this.repository.findOne({where:{email:email} })
         
         if(userEntity) {
             if(!userEntity.isEnabled) throw new BadRequestError("USER DESABILITADO!")
 
-            const checkPasswords = await this.passwordEnconder.verify(password, userEntity.password);
+            const checkPasswords = await this.passwordEnconder.verify(password, userEntity.password)
             if(checkPasswords) {
-                return userEntity;
+                return userEntity
             }
         }
 
-        throw new BadRequestError("ERROR AO REALIZAR LOGIN");
+        throw new BadRequestError("ERROR AO REALIZAR LOGIN")
     }
 
     async issueToken(user: User, authType: AuthType = AuthType.PASSWORD) {
@@ -52,7 +52,7 @@ export class AuthService {
             sub: user.username,
             //roles: await user.getAvailableRoles(),
             authType: authType
-        } as any,'MY-SECRET',{expiresIn:'7d',audience:'auth'});
+        } as any,'MY-SECRET',{expiresIn:'7d',audience:'auth'})
     }
 
 }

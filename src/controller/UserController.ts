@@ -1,5 +1,5 @@
-import {JsonController, Get, Post, Body, Put, Param, Authorized} from "routing-controllers";
-import {UserService} from '../service/UserService';
+import {JsonController, Get, Post, Body, Put, Param, Authorized} from "routing-controllers"
+import {UserService} from '../service/UserService'
 
 @JsonController('/users')
 export class UserController {
@@ -10,31 +10,28 @@ export class UserController {
 
     @Get()
     public list() {
-        return this.userService.list();
+        return this.userService.list()
     }
 
     @Post()
     public insert(@Body() user:any) {
-        return this.userService.insert(user);
+        return this.userService.insert(user)
     }
 
     @Put('/:id')
     public update(@Param('id') id:string, @Body() user:any) {
-        return this.userService.update(id, user);
+        return this.userService.update(id, user)
     }
 
     @Authorized()
     @Get('/:id')
     public findOne(@Param('id') id:string) {
-        return this.userService.findOne(id);
+        return this.userService.findOne(id)
     }
 
-    @Put('/change')
-    public changePassword(@Body() request:any) {
-        console.log('request:',request);
-        return {
-            teste:'testando'
-        }
-        // return this.userService.changePassword(request);
+    @Put('/change-password/:id')
+    public changePassword(@Body() request:any, @Param('id') id:string) {
+        request.id = id
+        return this.userService.changePassword(request)
     }
 }

@@ -4,7 +4,7 @@ import { createConnection } from 'typeorm';
 
 const user = {
     email:'name@mail.com',
-    password:'102030',
+    password:'novasenha',
     username:'userTest'
 };
 

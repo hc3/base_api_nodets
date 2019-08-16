@@ -1,46 +1,28 @@
-import * as bcrypt from 'bcrypt';
-import { Exclude } from 'class-transformer';
-import { IsNotEmpty } from 'class-validator';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer'
+import { IsNotEmpty } from 'class-validator'
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm'
+import Container from 'typedi'
+import { PasswordEncoder } from '../common/password-encoder'
+import { Role } from './Role';
 
 @Entity("user")
 export class User {
 
-    public static hashPassword(password: string): Promise<string> {
-        return new Promise((resolve, reject) => {
-            bcrypt.hash(password, 10, (err:any, hash:any) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(hash);
-            });
-        });
-    }
-
-    public static comparePassword(user: User, password: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            bcrypt.compare(password, user.password, (err:any, res:any) => {
-                if(err) return reject(err);
-                resolve(res === true);
-            });
-        });
-    }
-
     async updatePassword(password:string) {
-        this.password = await User.hashPassword(password);
-        this.lastChangedAt = new Date();
+        this.password = await Container.get(PasswordEncoder).encode(password)
+        this.lastChangedAt = new Date()
     }
 
     @PrimaryGeneratedColumn("uuid")
-    public id: string;
+    public id: string
 
     @IsNotEmpty()
     @Column({ name: 'first_name' })
-    public firstName: string;
+    public firstName: string
 
     @IsNotEmpty()
     @Column({ name: 'last_name' })
-    public lastName: string;
+    public lastName: string
 
     @Column({
         type:'varchar',
@@ -48,12 +30,12 @@ export class User {
         unique:true,
         nullable:false
     })
-    public email: string;
+    public email: string
 
     @IsNotEmpty()
     @Column()
     @Exclude()
-    public password: string;
+    public password: string
 
     @Column({
         type:'varchar',
@@ -61,33 +43,41 @@ export class User {
         unique:true,
         nullable:false
     })
-    public username: string;
+    public username: string
 
     @Column({
         nullable:false,
         default:true
     })
-    isEnabled: boolean;
+    isEnabled: boolean
 
     @Column({
         nullable:false,
         default:new Date()
     })
-    lastLoginAt: Date;
+    lastLoginAt: Date
 
     @Column({
         nullable:false,
         default:new Date()
     })
-    lastChangedAt: Date;
+    lastChangedAt: Date
+
+    @ManyToMany(_type => Role, { cascade:true })
+    @JoinTable({
+        name:'user_has_role',
+        joinColumn:{ name:'user_id', referencedColumnName:'id'},
+        inverseJoinColumn:{ name:'role_id', referencedColumnName:'id'}
+    })
+    roles:Role[]
 
     public toString(): string {
-        return `${this.firstName} ${this.lastName} (${this.email})`;
+        return `${this.firstName} ${this.lastName} (${this.email})`
     }
 
     @BeforeInsert()
     public async hashPassword(){
-        this.password = await User.hashPassword(this.password);
+        this.password = await Container.get(PasswordEncoder).encode(this.password)
     }
 
 }

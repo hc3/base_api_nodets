@@ -27,7 +27,7 @@ test('[USER] @Get List()', async (done) => {
     done();
 })
 
-test('[USER] @Post insert(body)', async (done) => {
+test('[USER] @Post insert(body) [ sucesso ]', async (done) => {
     const response = await supertest(app).post('/users').send(user);
     expect(response.body.id).not.toBeNull();
     expect(response.body.firstName).toBe(user.firstName);
@@ -41,7 +41,7 @@ test('[USER] @Post insert(body)', async (done) => {
     done();
 })
 
-test('[USER] @Post insert(body)', async (done) => {
+test('[USER] @Post insert(body) [ error ]', async (done) => {
     const response = await supertest(app).post('/users').send(user);
     expect(response.body.httpCode).toBe(400);
     expect(response.body.message).toBe("Usuário já existe!");
@@ -77,11 +77,18 @@ test('[USER] @Put update(id)', async (done) => {
 })
 
 test('[USER] @Put changePassword(body)', async (done) => {
-    const response = await supertest(app).put(`/users/change-password`).send({
+    const response = await supertest(app).put(`/users/change-password/${userId}`).send({
         email:user.email,
         oldPassword:user.password,
         newPassword:'novasenha'
     });
     expect(response.body.id).not.toBeNull();
+    expect(response.body.firstName).toBe('alterado');
+    expect(response.body.lastName).toBe(user.lastName);
+    expect(response.body.email).toBe(user.email);
+    expect(response.body.username).toBe(user.username);
+    expect(response.body.isEnabled).toBe(true);
+    expect(response.body.lasLoginAt).not.toBeNull();
+    expect(response.status).toBe(200);
     done();
 })

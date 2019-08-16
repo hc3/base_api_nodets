@@ -1,5 +1,5 @@
-import { JsonController, Post, Body } from "routing-controllers";
-import { AuthService } from '../service/AuthService';
+import { JsonController, Post, Body } from "routing-controllers"
+import { AuthService } from '../service/AuthService'
 
 @JsonController('/auth')
 export class AuthController {
@@ -9,6 +9,6 @@ export class AuthController {
 
     @Post('/login')
     public login(@Body() user:any) {
-        return this.authService.login(user);
+        return this.authService.login(user)
     }
 }
