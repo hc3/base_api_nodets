@@ -1,6 +1,5 @@
-import supertest from 'supertest';
-import app from '../../src/app';
 import { createConnection } from 'typeorm';
+import executeRequest from './executeRequest';
 
 const user = {
     email:'name@mail.com',
@@ -20,14 +19,14 @@ beforeAll(async (done) => {
 })
 
 test('[AUTH] @Post login(@Body)', async (done) => {
-    const response = await supertest(app).post('/auth/login').send(user);
+    const response = await executeRequest('post','/auth/login',user);
     expect(response.status).toBe(200);
     expect(response.body).not.toBeNull();
     done();
 })
 
 test('[AUTH] @Post login(@Body)', async (done) => {
-    const response = await supertest(app).post('/auth/login').send(userNotExist);
+    const response = await executeRequest('post','/auth/login',userNotExist);
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('ERROR AO REALIZAR LOGIN');
     expect(response.body.name).toBe('BadRequestError');

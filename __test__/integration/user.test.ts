@@ -1,7 +1,6 @@
-import supertest from 'supertest';
-import app from '../../src/app';
 import { UserRepository } from '../../src/repository/UserRepository';
 import { getCustomRepository, createConnection } from 'typeorm';
+import executeRequest from './executeRequest';
 
 const user = {
     firstName:'nameTest',
@@ -21,14 +20,14 @@ beforeAll(async (done) => {
 })
 
 test('[USER] @Get List()', async (done) => {
-    const response = await supertest(app).get('/users');
+    const response = await executeRequest('get','/users',null);
     expect(response.charset).toBe("utf-8");
     expect(response.status).toBe(200);
     done();
 })
 
 test('[USER] @Post insert(body) [ sucesso ]', async (done) => {
-    const response = await supertest(app).post('/users').send(user);
+    const response = await executeRequest('post','/users',user);
     expect(response.body.id).not.toBeNull();
     expect(response.body.firstName).toBe(user.firstName);
     expect(response.body.lastName).toBe(user.lastName);
@@ -42,7 +41,7 @@ test('[USER] @Post insert(body) [ sucesso ]', async (done) => {
 })
 
 test('[USER] @Post insert(body) [ error ]', async (done) => {
-    const response = await supertest(app).post('/users').send(user);
+    const response = await executeRequest('post','/users',user);
     expect(response.body.httpCode).toBe(400);
     expect(response.body.message).toBe("Usuário já existe!");
     expect(response.body.name).toBe("BadRequestError");
@@ -51,7 +50,7 @@ test('[USER] @Post insert(body) [ error ]', async (done) => {
 
 
 test('[USER] @Get findOne(id)', async (done) => {
-    const response = await supertest(app).get(`/users/${userId}`);
+    const response = await executeRequest('get',`/users/${userId}`,null);
     expect(response.body.id).not.toBeNull();
     expect(response.body.firstName).toBe(user.firstName);
     expect(response.body.lastName).toBe(user.lastName);
@@ -64,7 +63,7 @@ test('[USER] @Get findOne(id)', async (done) => {
 })
 
 test('[USER] @Put update(id)', async (done) => {
-    const response = await supertest(app).put(`/users/${userId}`).send({firstName:'alterado'})
+    const response = await await executeRequest('put',`/users/${userId}`,{firstName:'alterado'})
     expect(response.body.id).not.toBeNull();
     expect(response.body.firstName).toBe('alterado');
     expect(response.body.lastName).toBe(user.lastName);
@@ -77,11 +76,12 @@ test('[USER] @Put update(id)', async (done) => {
 })
 
 test('[USER] @Put changePassword(body)', async (done) => {
-    const response = await supertest(app).put(`/users/change-password/${userId}`).send({
+    const updatedUser = {
         email:user.email,
         oldPassword:user.password,
         newPassword:'novasenha'
-    });
+    }
+    const response = await executeRequest('put',`/users/change-password/${userId}`,updatedUser)
     expect(response.body.id).not.toBeNull();
     expect(response.body.firstName).toBe('alterado');
     expect(response.body.lastName).toBe(user.lastName);

@@ -1,4 +1,4 @@
-import {JsonController, Get, Post, Body, Put, Param, Authorized} from "routing-controllers"
+import {JsonController, Get, Post, Body, Put, Param} from "routing-controllers"
 import {UserService} from '../service/UserService'
 
 @JsonController('/users')
@@ -23,7 +23,6 @@ export class UserController {
         return this.userService.update(id, user)
     }
 
-    @Authorized()
     @Get('/:id')
     public findOne(@Param('id') id:string) {
         return this.userService.findOne(id)

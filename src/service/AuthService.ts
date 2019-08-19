@@ -52,7 +52,7 @@ export class AuthService {
             sub: user.username,
             //roles: await user.getAvailableRoles(),
             authType: authType
-        } as any,'MY-SECRET',{expiresIn:'7d',audience:'auth'})
+        } as any,process.env.DB_JWT_SECRET as string,{expiresIn:'7d',audience:'auth'})
     }
 
 }

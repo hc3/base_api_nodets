@@ -10,7 +10,7 @@ useContainerTypeORM(Container)
 
 const app = createExpressServer({
     controllers:[`${__dirname}/controller/*.ts`],
-    //middlewares:[`${__dirname}/middleware/*.ts`],
+    middlewares:[`${__dirname}/middleware/*.ts`],
     authorizationChecker: async(action:Action) => {
         console.log('authorization',action.request.params)
         return true;
